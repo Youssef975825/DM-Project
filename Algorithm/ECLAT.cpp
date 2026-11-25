@@ -7,12 +7,23 @@
 ECLAT::ECLAT(DataSet &data) : data(data) {}
 
 void ECLAT::run() {
+    // allow multiple runs on the same object.
+    frequent_item_set.clear();
     Level current = level_one();
     prune(current);
-    frequent_item_set.clear();
+    /*
+     * assume in the final level
+     * items anf ids
+     *  a,b,c,d 1,2,3,4
+     *  a,b,f,g 2,3,4,5
+     *  there is no valid join
+     *  then the current will be empty
+     */
     while (!current.empty()) {
         frequent_item_set.insert(current.begin(), current.end());
+        // candidate
         current = join(current);
+        // the next level
         prune(current);
     }
 }
