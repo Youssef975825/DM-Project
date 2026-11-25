@@ -3,7 +3,6 @@
 #include "Algorithm/AssociationRules.h"
 #include "Algorithm/DataSet.h"
 #include "Algorithm/ECLAT.h"
-#include "Algorithm/AssociationRules.h"
 using namespace std;
 
 int main() {
@@ -72,26 +71,6 @@ int main() {
             cout << " -> no correlation" << endl;
         }
         cout << "--------------------------------------------" << endl;
-    }
-    AssociationRules rules(data, eclat);
-    rules.generate();
-
-    cout << "Strong Rules:\n";
-
-    for (const auto& r : rules.get_strong_rules())
-    {
-		cout << "for Left: \n";
-        for (const auto& item : r.left)
-        {
-            cout << item << " ";
-        }
-        cout << "for Right: \n";
-        for (const auto& item : r.right) 
-        {
-            cout << item << " ";
-            cout << "(confidence =" << r.confidence << "." << '\n';
-        }
-        
     }
     return 0;
 }
