@@ -1,37 +1,30 @@
-#ifndef ASSOCIATIONRULES_H
-#define ASSOCIATIONRULES_H
+//
+// Created by IT on 11/24/2026.
+//
 
-#include <string>
-#include <vector>
-#include "DataSet.h"
+#ifndef DATAMINING_ASSOCIATIONRULES_H
+#define DATAMINING_ASSOCIATIONRULES_H
+
 #include "ECLAT.h"
-
-using namespace std;
 
 struct Rule {
     vector<string> left;
     vector<string> right;
+    double support;
     double confidence;
+    double lift;
 };
 
 class AssociationRules {
-private:
-    DataSet& data;
-    ECLAT& eclat;
-    vector<Rule> all_rules;
-    vector<Rule> strong_rules;
-
-    void build_rules(const vector<string>& items, int supp_xy, int idx,
-        vector<string>& left, vector<string>& right);
-
+    using ItemSet = std::vector<std::string>;
+    using Level = std::map<ItemSet, std::set<int>>;
+    const Level &frequent_rules;
+    double data_size;
 public:
-    AssociationRules(DataSet& data, ECLAT& eclat);
-
-    void generate();
-    void extract_strong_rules();
-
-    vector<Rule>& get_all_rules();
-    vector<Rule>& get_strong_rules();
+    explicit AssociationRules(const Level &frequent_rules, double data_size);
+    [[nodiscard]] vector<Rule> association_rules() const;
+    [[nodiscard]] vector<Rule> strong_association_rules(double min_confidence) const;
 };
 
-#endif
+
+#endif //DATAMINING_ASSOCIATIONRULES_H
